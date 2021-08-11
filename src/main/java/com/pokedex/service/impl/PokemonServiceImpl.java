@@ -3,7 +3,6 @@ package com.pokedex.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pokedex.dto.PokemonDto;
 import com.pokedex.model.ListPokemon;
 import com.pokedex.model.NamedAPIResource;
 import com.pokedex.model.Pokemon;
@@ -14,8 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.net.URL;
-import java.net.URLPermission;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,20 +27,15 @@ public class PokemonServiceImpl implements IPokemonService {
     private RestTemplate restTemplate;
 
     @Override
-    public ListPokemon findAll(int offset, int limit) throws JsonProcessingException {
-
-        ListPokemon pokemonList =
-                    restTemplate.getForObject(URI.create("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit" + limit), ListPokemon.class);
-        return pokemonList;
-    }
-
-    @Override
-    public List<Pokemon> findById() throws JsonProcessingException {
-
+    public List<Pokemon> findAll(int offset, int limit) throws JsonProcessingException {
         List<Pokemon> pokemonList = new ArrayList<Pokemon>();
-        for (int i = 1; i < 21; i++) {
+
+        ListPokemon responseList =
+                    restTemplate.getForObject(URI.create("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit" + limit), ListPokemon.class);
+
+        for(NamedAPIResource na : responseList.getResults()) {
             ResponseEntity<String> response =
-                    restTemplate.getForEntity(URI.create("https://pokeapi.co/api/v2/pokemon/" + i), String.class);
+                    restTemplate.getForEntity(URI.create(na.getUrl()), String.class);
 
             JsonNode root = mapper.readTree(response.getBody());
             JsonNode sprites = root.path("sprites");
@@ -58,6 +51,13 @@ public class PokemonServiceImpl implements IPokemonService {
         }
 
         return pokemonList;
+    }
+
+    @Override
+    public List<Pokemon> findById() throws JsonProcessingException {
+
+        Pokemon pokemon = mapper.readValue("https://pokeapi.co/api/v2/pokemon/1", Pokemon.class);
+        return null;
     }
 
 }

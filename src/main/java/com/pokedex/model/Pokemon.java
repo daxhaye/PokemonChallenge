@@ -18,11 +18,12 @@ public class Pokemon {
     private int weight;
     private String description;
     private String sprites;
-    private List<Ability> abilities;
-    private List<String> types = new ArrayList<String>();
+    private List<Ability> abilities = new ArrayList<>();
+    private List<String> types = new ArrayList<>();
 
 
     public void addTypes(String name) {
         types.add(name);
     }
+    public void addAbility(Ability name){this.abilities.add(name);}
 }

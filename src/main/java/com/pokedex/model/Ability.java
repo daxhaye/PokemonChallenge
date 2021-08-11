@@ -12,7 +12,5 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 public class Ability {
-    private List<String> name = new ArrayList<String>();
-
-    public void addName(String name) {this.name.add(name);}
+    private String name;
 }

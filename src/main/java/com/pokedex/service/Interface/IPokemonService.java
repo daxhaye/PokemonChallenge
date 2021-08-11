@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IPokemonService {
 
-    public ListPokemon findAll(int offset, int limit) throws JsonProcessingException;
+    public List<Pokemon> findAll(int offset, int limit) throws JsonProcessingException;
 
     public List<Pokemon> findById() throws JsonProcessingException;
 }
