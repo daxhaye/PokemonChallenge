@@ -20,11 +20,14 @@ import java.util.List;
 @Service
 public class PokemonServiceImpl implements IPokemonService {
 
-    @Autowired
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+
+    public PokemonServiceImpl(ObjectMapper mapper, RestTemplate restTemplate) {
+        this.mapper = mapper;
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public List<Pokemon> findAll(int offset, int limit) throws JsonProcessingException {
