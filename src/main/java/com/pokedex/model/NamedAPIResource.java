@@ -1,11 +1,10 @@
 package com.pokedex.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Getter @Setter
+@Data
 public class NamedAPIResource {
     private String name;
     private String url;

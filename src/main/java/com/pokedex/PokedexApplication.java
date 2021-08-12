@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 public class PokedexApplication {
 
     @Bean
-    public static final ObjectMapper mapper() {
+    public static ObjectMapper mapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return mapper;

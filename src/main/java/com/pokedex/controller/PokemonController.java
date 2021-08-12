@@ -1,7 +1,6 @@
 package com.pokedex.controller;
 
 import com.pokedex.service.Interface.IPokemonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PokemonController {
-    @Autowired
-    private IPokemonService pokemonService;
+    private final IPokemonService pokemonService;
+
+    public PokemonController(IPokemonService pokemonService) {
+        this.pokemonService = pokemonService;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllPokemon(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "20") int limit){

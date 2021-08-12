@@ -1,14 +1,13 @@
 package com.pokedex.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Getter @Setter
+@Data
 public class ListPokemon {
     private int count;
     private String next;
