@@ -5,12 +5,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Getter @Setter
-public class Ability {
-    private NamedAPIResource ability;
+@Getter
+@Setter
+public class Sprite {
+    private String front_default;
 }

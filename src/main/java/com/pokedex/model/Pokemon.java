@@ -16,9 +16,9 @@ public class Pokemon {
     private Long id;
     private String name;
     private int weight;
-    private String description;
-    private String sprites;
-    private List<Ability> abilities = new ArrayList<>();
+    private Sprite sprites;
+    private List<Ability> abilities;
     private List<Types> types;
+    private Descriptions descriptions;
 
 }

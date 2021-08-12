@@ -2,18 +2,19 @@ package com.pokedex.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.pokedex.model.Ability;
+import com.pokedex.model.Sprite;
+import com.pokedex.model.Types;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Getter @Setter
 public class PokemonDto {
     Long id;
     String name;
-    String sprites;
-    List<String> types;
+    Sprite sprites;
     int weight;
     List<Ability> abilities;
+    List<Types> types;
 }
