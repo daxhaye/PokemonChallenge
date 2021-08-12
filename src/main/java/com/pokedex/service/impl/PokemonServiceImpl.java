@@ -1,19 +1,15 @@
 package com.pokedex.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pokedex.model.ListPokemon;
-import com.pokedex.model.NamedAPIResource;
-import com.pokedex.model.Pokemon;
+import com.pokedex.dto.PokemonDto;
+import com.pokedex.dto.PokemonDtoComp;
+import com.pokedex.model.*;
+import com.pokedex.repository.Interface.IPokemonRepository;
 import com.pokedex.service.Interface.IPokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,43 +17,41 @@ import java.util.List;
 public class PokemonServiceImpl implements IPokemonService {
 
     @Autowired
-    private ObjectMapper mapper;
+    IPokemonRepository repository;
 
     @Autowired
-    private RestTemplate restTemplate;
+    ObjectMapper mapper;
 
     @Override
-    public List<Pokemon> findAll(int offset, int limit) throws JsonProcessingException {
-        List<Pokemon> pokemonList = new ArrayList<Pokemon>();
+    public List<PokemonDto> findAll(int offset, int limit) {
+        List<PokemonDto> pokemonList = new ArrayList<>();
 
-        ListPokemon responseList =
-                    restTemplate.getForObject(URI.create("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit" + limit), ListPokemon.class);
+        ListPokemon responseList = repository.findAll(offset, limit);
 
         for(NamedAPIResource na : responseList.getResults()) {
-            ResponseEntity<String> response =
-                    restTemplate.getForEntity(URI.create(na.getUrl()), String.class);
-
-            JsonNode root = mapper.readTree(response.getBody());
-            JsonNode sprites = root.path("sprites");
-
-            JsonNode abilities = root.path("abilities");
-
-            Pokemon pokemon = new Pokemon();
-            pokemon.setName(root.path("name").asText());
-            pokemon.setId(root.path("id").asLong());
-            pokemon.setWeight(root.path("weight").asInt());
-            pokemon.setSprites(sprites.path("front_default").asText());
-            pokemonList.add(pokemon);
+            Pokemon pokemon = repository.findByUri(URI.create(na.getUrl()));
+            PokemonDto dto = mapper.convertValue(pokemon, PokemonDto.class);
+            pokemonList.add(dto);
         }
 
         return pokemonList;
     }
 
     @Override
-    public List<Pokemon> findById() throws JsonProcessingException {
+    public PokemonDtoComp findById(Long id) {
 
-        Pokemon pokemon = mapper.readValue("https://pokeapi.co/api/v2/pokemon/1", Pokemon.class);
-        return null;
+        Pokemon pokemon = repository.findById(id);
+
+        Evolution evolution =
+                repository.findEvolutionById(id);
+
+        DescriptionList descriptions =
+                repository.findDescriptionById(id);
+
+        pokemon.setDescriptions(descriptions.getDescriptions().get(1).getDescription());
+        pokemon.setEvolutions(evolution.getChain().getEvolves_to().get(0).getSpecies().getName());
+
+        return mapper.convertValue(pokemon, PokemonDtoComp.class);
     }
 
 }
