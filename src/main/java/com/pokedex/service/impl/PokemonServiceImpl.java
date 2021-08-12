@@ -26,6 +26,8 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class PokemonServiceImpl implements IPokemonService {
 
+    public List<Pokemon> pokemonList = new ArrayList<Pokemon>();
+
     @Autowired
     private ObjectMapper mapper;
 
@@ -34,7 +36,7 @@ public class PokemonServiceImpl implements IPokemonService {
 
     @Override
     public List<Pokemon> findAll(int offset, int limit) throws IOException {
-        List<Pokemon> pokemonList = new ArrayList<Pokemon>();
+
 
         ListPokemon responseList =
                     restTemplate.getForObject(URI.create("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit" + limit), ListPokemon.class);
@@ -48,7 +50,12 @@ public class PokemonServiceImpl implements IPokemonService {
     }
 
     @Override
-    public List<Pokemon> findById() throws JsonProcessingException {
+    public Pokemon findById(Long id) throws JsonProcessingException {
+        for(Pokemon pokemon : pokemonList) {
+            if(id == pokemon.getId()) {
+                return pokemon;
+            }
+        }
         return null;
     }
 

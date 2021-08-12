@@ -6,11 +6,12 @@ import com.pokedex.model.Pokemon;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 public interface IPokemonService {
 
     public List<Pokemon> findAll(int offset, int limit) throws IOException;
 
-    public List<Pokemon> findById() throws JsonProcessingException;
+    public Pokemon findById(Long id) throws JsonProcessingException;
 }
