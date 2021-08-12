@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Getter @Setter
-public class Descriptions {
-    private String description;
-    private NamedAPIResource language;
+@Getter
+@Setter
+public class Chain {
+    private List<Evolves> evolves_to;
 }
