@@ -12,29 +12,31 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PokemonServiceImpl implements IPokemonService {
 
-    @Autowired
+    final
     IPokemonRepository repository;
 
-    @Autowired
+    final
     ObjectMapper mapper;
+
+    public PokemonServiceImpl(IPokemonRepository repository, ObjectMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
 
     @Override
     public List<PokemonDto> findAll(int offset, int limit) {
-        List<PokemonDto> pokemonList = new ArrayList<>();
-
-        ListPokemon responseList = repository.findAll(offset, limit);
-
-        for(NamedAPIResource na : responseList.getResults()) {
-            Pokemon pokemon = repository.findByUri(URI.create(na.getUrl()));
-            PokemonDto dto = mapper.convertValue(pokemon, PokemonDto.class);
-            pokemonList.add(dto);
-        }
-
-        return pokemonList;
+        return repository.findAll(offset, limit).getResults()
+                .stream()
+                .map(na -> {
+                    Pokemon pokemon = repository.findByUri(URI.create(na.getUrl()));
+                    return mapper.convertValue(pokemon, PokemonDto.class);
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
