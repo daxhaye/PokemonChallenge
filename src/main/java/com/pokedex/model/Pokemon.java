@@ -19,11 +19,6 @@ public class Pokemon {
     private String description;
     private String sprites;
     private List<Ability> abilities = new ArrayList<>();
-    private List<String> types = new ArrayList<>();
+    private List<Types> types;
 
-
-    public void addTypes(String name) {
-        types.add(name);
-    }
-    public void addAbility(Ability name){this.abilities.add(name);}
 }
