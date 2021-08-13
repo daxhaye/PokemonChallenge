@@ -1,14 +1,13 @@
 package com.pokedex.service.Interface;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.pokedex.model.ListPokemon;
-import com.pokedex.model.Pokemon;
+import com.pokedex.dto.PokemonDto;
+import com.pokedex.dto.PokemonDtoComp;
 
 import java.util.List;
 
 public interface IPokemonService {
 
-    public List<Pokemon> findAll(int offset, int limit) throws JsonProcessingException;
+    List<PokemonDto> findAll(int offset, int limit);
 
-    public List<Pokemon> findById() throws JsonProcessingException;
+    PokemonDtoComp findById(Long id);
 }

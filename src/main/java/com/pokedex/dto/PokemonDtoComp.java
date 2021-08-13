@@ -8,11 +8,13 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PokemonDto {
+public class PokemonDtoComp {
     Long id;
     String name;
-    Sprite sprites;
     int weight;
+    Sprite sprites;
     List<Ability> abilities;
     List<Types> types;
+    String descriptions;
+    String evolutions;
 }
