@@ -34,19 +34,28 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     @Override
     public Pokemon findById(Long id){
         URI uri = URI.create("https://pokeapi.co/api/v2/pokemon/" + id);
+
         return restTemplate.getForObject(uri, Pokemon.class);
     }
 
     @Override
     public Evolution findEvolutionById(Long id) {
         URI uri= URI.create("https://pokeapi.co/api/v2/evolution-chain/" + id);
-        return restTemplate.getForObject(uri, Evolution.class);
+        try {
+            return restTemplate.getForObject(uri, Evolution.class);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public DescriptionList findDescriptionById(Long id) {
         URI uri = URI.create("https://pokeapi.co/api/v2/characteristic/" + id);
-        return restTemplate.getForObject(uri, DescriptionList.class);
+        try {
+            return restTemplate.getForObject(uri, DescriptionList.class);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

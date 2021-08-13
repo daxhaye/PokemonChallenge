@@ -48,8 +48,11 @@ public class PokemonServiceImpl implements IPokemonService {
         DescriptionList descriptions =
                 repository.findDescriptionById(id);
 
-        pokemon.setDescriptions(descriptions.getDescriptions().get(1).getDescription());
-        pokemon.setEvolutions(evolution.getChain().getEvolves_to().get(0).getSpecies().getName());
+        if(descriptions != null)
+            pokemon.setDescriptions(descriptions.getDescriptions().get(1).getDescription());
+
+        if(evolution != null)
+            pokemon.setEvolutions(evolution.getChain().getEvolves_to().get(0).getSpecies().getName());
 
         return mapper.convertValue(pokemon, PokemonDtoComp.class);
     }
