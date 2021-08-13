@@ -7,6 +7,7 @@ import com.pokedex.model.Pokemon;
 import com.pokedex.repository.Interface.IPokemonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import springfox.documentation.annotations.Cacheable;
 
 import java.net.URI;
 
@@ -20,6 +21,7 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
+    @Cacheable("pokemons")
     public ListPokemon findAll(int offset,int  limit) {
         URI uri = URI.create("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit" + limit);
 
@@ -27,11 +29,13 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
+    @Cacheable("pokemon")
     public Pokemon findByUri(URI uri) {
         return restTemplate.getForObject(uri, Pokemon.class);
     }
 
     @Override
+    @Cacheable("pokemon")
     public Pokemon findById(Long id){
         URI uri = URI.create("https://pokeapi.co/api/v2/pokemon/" + id);
 
@@ -39,6 +43,7 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
+    @Cacheable("evolutions")
     public Evolution findEvolutionById(Long id) {
         URI uri= URI.create("https://pokeapi.co/api/v2/evolution-chain/" + id);
         try {
@@ -49,6 +54,7 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
+    @Cacheable("descriptions")
     public DescriptionList findDescriptionById(Long id) {
         URI uri = URI.create("https://pokeapi.co/api/v2/characteristic/" + id);
         try {
