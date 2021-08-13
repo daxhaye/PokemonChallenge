@@ -29,7 +29,7 @@ public class PokemonServiceImpl implements IPokemonService {
     @Override
     public List<PokemonDto> findAll(int offset, int limit) {
         return repository.findAll(offset, limit).getResults()
-                .stream()
+                .stream().parallel()
                 .map(na -> {
                     Pokemon pokemon = repository.findByUri(URI.create(na.getUrl()));
                     return mapper.convertValue(pokemon, PokemonDto.class);
