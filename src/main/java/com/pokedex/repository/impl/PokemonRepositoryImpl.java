@@ -21,7 +21,7 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
-    @Cacheable("pokemons")
+    @Cacheable(value = CachingConfig.POKEMONS)
     public ListPokemon findAll(int offset,int  limit) {
         URI uri = URI.create("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit" + limit);
 
@@ -29,13 +29,13 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
-    @Cacheable("pokemon")
+    @Cacheable(value = CachingConfig.POKEMON)
     public Pokemon findByUri(URI uri) {
         return restTemplate.getForObject(uri, Pokemon.class);
     }
 
     @Override
-    @Cacheable("pokemon")
+    @Cacheable(value = CachingConfig.POKEMON)
     public Pokemon findById(Long id){
         URI uri = URI.create("https://pokeapi.co/api/v2/pokemon/" + id);
 
@@ -43,7 +43,7 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
-    @Cacheable("evolutions")
+    @Cacheable(value = CachingConfig.EVOLUTIONS)
     public Evolution findEvolutionById(Long id) {
         URI uri= URI.create("https://pokeapi.co/api/v2/evolution-chain/" + id);
         try {
@@ -54,7 +54,7 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
-    @Cacheable("descriptions")
+    @Cacheable(value = CachingConfig.DESCRIPTIONS)
     public DescriptionList findDescriptionById(Long id) {
         URI uri = URI.create("https://pokeapi.co/api/v2/characteristic/" + id);
         try {
