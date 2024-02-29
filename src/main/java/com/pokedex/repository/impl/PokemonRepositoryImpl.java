@@ -21,9 +21,8 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
-    @Cacheable(value = CachingConfig.POKEMONS)
     public ListPokemon findAll(int offset,int  limit) {
-        URI uri = URI.create("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit" + limit);
+        URI uri = URI.create("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit=" + limit);
 
         return restTemplate.getForObject(uri, ListPokemon.class);
     }
