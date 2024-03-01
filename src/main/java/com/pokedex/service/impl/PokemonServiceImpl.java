@@ -27,7 +27,6 @@ public class PokemonServiceImpl implements IPokemonService {
     }
 
     @Override
-    @Cacheable(value = CachingConfig.POKEMONS)
     public List<PokemonDto> findAll(int offset, int limit) {
         return repository.findAll(offset, limit).getResults()
                 .stream().parallel()

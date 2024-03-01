@@ -7,7 +7,7 @@ import com.pokedex.model.Pokemon;
 import com.pokedex.repository.Interface.IPokemonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import springfox.documentation.annotations.Cacheable;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.net.URI;
 
@@ -21,6 +21,7 @@ public class PokemonRepositoryImpl implements IPokemonRepository {
     }
 
     @Override
+    @Cacheable(value = CachingConfig.POKEMONS)
     public ListPokemon findAll(int offset,int  limit) {
         URI uri = URI.create("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit=" + limit);
 
